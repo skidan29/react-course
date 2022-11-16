@@ -1,3 +1,4 @@
+import {MyButton} from "./UI/button/MyButton";
 
 
 export const PostItem = (props) => {
@@ -8,7 +9,7 @@ export const PostItem = (props) => {
                     <strong>{props.post.id}_ {props.post.title}: {props.post.body}</strong>
                 </div>
                 <div className="post__btn">
-                    <button>Перейти</button>
+                    <MyButton text={'GO'}/>
                 </div>
             </div>
     );
