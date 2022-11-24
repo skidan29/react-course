@@ -1,7 +1,5 @@
 import './App.css';
 import {PostList} from "./components/Post-list";
-import {MyButton} from "./components/UI/button/MyButton";
-import {MyInput} from "./components/UI/input/MyInput";
 import {useState} from "react";
 import {PostForm} from "./components/PostForm";
 
@@ -15,15 +13,19 @@ function App() {
 
     ]);
 
-    const createPost = (post) =>{
+    const createPost = (post) => {
         setPosts([...posts, post]);
+    }
+
+    const removePost = (post) => {
+        setPosts(posts.filter(p => p.id !== post.id));
     }
 
 
     return (
         <div className="App">
             <PostForm create={createPost}></PostForm>
-            <PostList posts={posts} title='Список проектов'></PostList>
+            <PostList posts={posts} remove={removePost} title='Список проектов'></PostList>
         </div>
     );
 }

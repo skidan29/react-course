@@ -2,6 +2,9 @@ import {MyButton} from "./UI/button/MyButton";
 
 
 export const PostItem = (props) => {
+        const removePost = () => {
+            props.remove(props.post)
+        }
 
         return (
             <div className="post">
@@ -9,7 +12,7 @@ export const PostItem = (props) => {
                     <strong>{props.post.id}_ {props.post.title}: {props.post.body}</strong>
                 </div>
                 <div className="post__btn">
-                    <MyButton text={'GO'}/>
+                    <MyButton onClick={removePost} text={'Delete'}/>
                 </div>
             </div>
     );
