@@ -1,9 +1,9 @@
 import './App.css';
 import {PostList} from "./components/Post-list";
-import {useState} from "react";
+import {useMemo, useState} from "react";
 import {PostForm} from "./components/PostForm";
 import {MySelect} from "./components/UI/MySelect";
-import {getValue} from "@testing-library/user-event/dist/utils";
+import {MyInput} from "./components/UI/input/MyInput";
 
 
 function App() {
@@ -30,22 +30,38 @@ function App() {
 
     const [selectedStore, setSelectedStore] = useState('');
 
+    const [searchStore, setSearchStore] = useState('');
+
+    const sortedPost = useMemo(() => {
+        if (selectedStore) {
+            return [...posts].sort((a, b) => a[selectedStore].localeCompare(b[selectedStore]));
+        }
+        return posts;
+
+    }, [selectedStore, posts]);
 
     const sortPost = (sort) => {
         setSelectedStore(sort);
-        setPosts([...posts].sort((a, b) => a[sort].localeCompare(b[sort])))
-        console.log(sort)
     }
 
     return (
         <div className="App">
+
             <PostForm create={createPost}></PostForm>
+
             <hr style={{margin: '12px 0'}}/>
+
             <div>
+
+                <MyInput value={searchStore} onChange={e => setSearchStore(e.target.value)}></MyInput>
+
                 <MySelect value={selectedStore} options={options} onChange={sortPost}
                           defaultValue={'Сортировка'}></MySelect>
+
             </div>
-            <PostList posts={posts} remove={removePost} title='Список проектов'></PostList>
+
+            <PostList posts={sortedPost} remove={removePost} title='Список проектов'></PostList>
+
         </div>
     );
 }
