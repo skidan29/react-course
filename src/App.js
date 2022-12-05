@@ -44,6 +44,13 @@ function App() {
         setSelectedStore(sort);
     }
 
+    const sortedAndFilteredPost = useMemo(() => {
+        if (searchStore) {
+            return sortedPost.filter(post => post.title.toLowerCase().includes(searchStore.toLowerCase()));
+        }
+        return [...sortedPost];
+    }, [searchStore, posts])
+
     return (
         <div className="App">
 
@@ -60,7 +67,11 @@ function App() {
 
             </div>
 
-            <PostList posts={sortedPost} remove={removePost} title='Список проектов'></PostList>
+            {
+                sortedAndFilteredPost.length === 0
+                    ? <p>Нет добавленных постов</p>
+                    : <PostList posts={sortedAndFilteredPost} remove={removePost} title='Список проектов'></PostList>
+            }
 
         </div>
     );
