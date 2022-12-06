@@ -2,8 +2,7 @@ import './App.css';
 import {PostList} from "./components/Post-list";
 import {useMemo, useState} from "react";
 import {PostForm} from "./components/PostForm";
-import {MySelect} from "./components/UI/MySelect";
-import {MyInput} from "./components/UI/input/MyInput";
+import {PostFilter} from "./components/PostFilter";
 
 
 function App() {
@@ -23,33 +22,22 @@ function App() {
         setPosts(posts.filter(p => p.id !== post.id));
     }
 
-    const options = [
-        {value: 'title', name: 'По названию'},
-        {value: 'body', name: 'По описанию'},
-    ];
-
-    const [selectedStore, setSelectedStore] = useState('');
-
-    const [searchStore, setSearchStore] = useState('');
+    const [filter, setFilter] = useState({sort: '', query: ''});
 
     const sortedPost = useMemo(() => {
-        if (selectedStore) {
-            return [...posts].sort((a, b) => a[selectedStore].localeCompare(b[selectedStore]));
+        if (filter.sort) {
+            return [...posts].sort((a, b) => a[filter.sort].localeCompare(b[filter.sort]));
         }
         return posts;
 
-    }, [selectedStore, posts]);
-
-    const sortPost = (sort) => {
-        setSelectedStore(sort);
-    }
+    }, [filter.sort, posts]);
 
     const sortedAndFilteredPost = useMemo(() => {
-        if (searchStore) {
-            return sortedPost.filter(post => post.title.toLowerCase().includes(searchStore.toLowerCase()));
+        if (filter.query) {
+            return sortedPost.filter(post => post.title.toLowerCase().includes(filter.query.toLowerCase()));
         }
         return [...sortedPost];
-    }, [searchStore, posts])
+    }, [filter.query, posts])
 
     return (
         <div className="App">
@@ -58,14 +46,7 @@ function App() {
 
             <hr style={{margin: '12px 0'}}/>
 
-            <div>
-
-                <MyInput value={searchStore} onChange={e => setSearchStore(e.target.value)}></MyInput>
-
-                <MySelect value={selectedStore} options={options} onChange={sortPost}
-                          defaultValue={'Сортировка'}></MySelect>
-
-            </div>
+            <PostFilter filter={filter} setFilter={e => setFilter(e)}></PostFilter>
 
             {
                 sortedAndFilteredPost.length === 0
