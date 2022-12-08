@@ -6,16 +6,19 @@ export const PostList = (props) => {
         props.remove(post);
     }
 
+    if (!props.posts.length) {
+        return (<h3 style={{textAlign: 'center'}}>Постов нет</h3>)
+    } else {
+        return (
+            <div>
+                <h1 style={{fontSize: '24px', textAlign: 'center'}}>{props.title}:</h1>
 
-    return (
-        <div>
-            <h1 style={{fontSize: '24px', textAlign: 'center'}}>{props.title}:</h1>
-
-            {props.posts.map(post => (
+                {props.posts.map(post => (
                     <PostItem remove={removePost} post={post} key={post.id}></PostItem>
                 ))
-            }
+                }
 
-        </div>
-    );
+            </div>
+        );
+    }
 }

@@ -12,7 +12,7 @@ export const PostItem = (props) => {
                     <strong>{props.post.id}_ {props.post.title}: {props.post.body}</strong>
                 </div>
                 <div className="post__btn">
-                    <MyButton onClick={removePost} text={'Delete'}/>
+                    <MyButton onClick={removePost}>Удалить</MyButton>
                 </div>
             </div>
     );

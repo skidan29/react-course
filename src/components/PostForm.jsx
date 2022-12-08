@@ -26,7 +26,7 @@ export const PostForm = ({create}) => {
                      placeholder={'Завголовок поста'}/>
             <MyInput onChange={(event) => setPost({...post, body: event.target.value})} value={post.body}
                      placeholder={'Описание поста'}/>
-            <MyButton onClick={addNewPost} text='Add Post'/>
+            <MyButton onClick={addNewPost}>Добавить пост</MyButton>
 
         </form>
     );

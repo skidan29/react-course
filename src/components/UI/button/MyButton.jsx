@@ -1,7 +1,7 @@
 import classes from './MyButton.module.css'
-export const MyButton = ({text, ...props}) => {
+export const MyButton = ({children, ...props}) => {
 
     return (
-        <button {...props} className={classes.btn}>{text}</button>
+        <button {...props} className={classes.btn}>{children}</button>
     );
 }

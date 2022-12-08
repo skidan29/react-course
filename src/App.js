@@ -3,6 +3,8 @@ import {PostList} from "./components/Post-list";
 import {useMemo, useState} from "react";
 import {PostForm} from "./components/PostForm";
 import {PostFilter} from "./components/PostFilter";
+import {MyModal} from "./components/MyModal/MyModal";
+import {MyButton} from "./components/UI/button/MyButton";
 
 
 function App() {
@@ -13,9 +15,10 @@ function App() {
         {id: 3, title: 'Java', body: 'Лучший язык для веб'}
 
     ]);
-
+    let [visibleModal, setVisibleModal] = useState(false);
     const createPost = (post) => {
         setPosts([...posts, post]);
+        setVisibleModal(false);
     }
 
     const removePost = (post) => {
@@ -32,6 +35,10 @@ function App() {
 
     }, [filter.sort, posts]);
 
+    const closeModal = (value) => {
+        setVisibleModal(value)
+    }
+
     const sortedAndFilteredPost = useMemo(() => {
         if (filter.query) {
             return sortedPost.filter(post => post.title.toLowerCase().includes(filter.query.toLowerCase()));
@@ -42,17 +49,18 @@ function App() {
     return (
         <div className="App">
 
-            <PostForm create={createPost}></PostForm>
+            <MyButton onClick={() => setVisibleModal(true)}>Добавить пост</MyButton>
+
+            <MyModal visible={visibleModal} setVisible = {setVisibleModal}>
+                <PostForm create={createPost}/>
+            </MyModal>
 
             <hr style={{margin: '12px 0'}}/>
 
-            <PostFilter filter={filter} setFilter={e => setFilter(e)}></PostFilter>
+            <PostFilter filter={filter} setFilter={e => setFilter(e)}/>
 
-            {
-                sortedAndFilteredPost.length === 0
-                    ? <p>Нет добавленных постов</p>
-                    : <PostList posts={sortedAndFilteredPost} remove={removePost} title='Список проектов'></PostList>
-            }
+
+            <PostList posts={sortedAndFilteredPost} remove={removePost} title='Список проектов'/>
 
         </div>
     );
