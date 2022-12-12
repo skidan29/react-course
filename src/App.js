@@ -16,6 +16,7 @@ function App() {
 
     ]);
     let [visibleModal, setVisibleModal] = useState(false);
+
     const createPost = (post) => {
         setPosts([...posts, post]);
         setVisibleModal(false);
@@ -34,10 +35,6 @@ function App() {
         return posts;
 
     }, [filter.sort, posts]);
-
-    const closeModal = (value) => {
-        setVisibleModal(value)
-    }
 
     const sortedAndFilteredPost = useMemo(() => {
         if (filter.query) {
