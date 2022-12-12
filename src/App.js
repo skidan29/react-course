@@ -38,7 +38,7 @@ function App() {
 
     const sortedAndFilteredPost = useMemo(() => {
         if (filter.query) {
-            return sortedPost.filter(post => post.title.toLowerCase().includes(filter.query.toLowerCase()));
+            return sortedPost.filter(post => post.title.toLowerCase().include(filter.query.toLowerCase()));
         }
         return [...sortedPost];
     }, [filter.query, posts])
