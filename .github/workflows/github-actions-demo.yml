@@ -16,4 +16,4 @@ jobs:
     - name: install modules
       run: npm install
     - name: build project
-      run: yarn build
+      run: npm build
