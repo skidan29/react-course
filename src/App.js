@@ -16,7 +16,6 @@ function App() {
 
     ]);
     let [visibleModal, setVisibleModal] = useState(false);
-
     const createPost = (post) => {
         setPosts([...posts, post]);
         setVisibleModal(false);
@@ -32,15 +31,15 @@ function App() {
         if (filter.sort) {
             return [...posts].sort((a, b) => a[filter.sort].localeCompare(b[filter.sort]));
         }
-        else{return posts};
+        return posts;
 
     }, [filter.sort, posts]);
 
     const sortedAndFilteredPost = useMemo(() => {
-        if (filter.query) {
-            return sortedPost.filter(post => post.title.toLowerCase().includes(filter.query.toLowerCase()));
-        }
-        return [...sortedPost];
+        // if (filter.query) {
+        //     return sortedPost.filter(post => post.title.toLowerCase().includes(filter.query.toLowerCase()));
+        // }
+        // return [...sortedPost];
     }, [filter.query, posts]);
 
     return (
