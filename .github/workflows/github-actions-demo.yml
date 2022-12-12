@@ -2,6 +2,7 @@ name: GitHub Actions Demo
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 on: [ push ]
 jobs:
+  init:
   runs-on: ubuntu-latest
   strategy:
     matrix:
@@ -12,7 +13,7 @@ jobs:
         uses: actions/setup-node@v3
           with:
             node-version: ${{ matrix.node-version }}
-            - name: install modules
-                run: nvm install 14
-                - name: build project
-                  run: yarn build
+              - name: install modules
+                  run: nvm install 14
+                    - name: build project
+                      run: yarn build
