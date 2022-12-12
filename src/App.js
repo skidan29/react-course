@@ -32,7 +32,7 @@ function App() {
         if (filter.sort) {
             return [...posts].sort((a, b) => a[filter.sort].localeCompare(b[filter.sort]));
         }
-        return posts;
+        else{return posts};
 
     }, [filter.sort, posts]);
 
