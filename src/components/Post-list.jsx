@@ -22,8 +22,7 @@ export const PostList = (props) => {
                         >
                         <PostItem remove={removePost} post={post}></PostItem>
                         </CSSTransition>
-                    ))
-                    }
+                    ))}
                 </TransitionGroup>
 
 
