@@ -48,9 +48,9 @@ function App() {
 
             <PostFilter filter={filter} setFilter={e => setFilter(e)}/>
 
-            {postError && <h1>
+            {postError &&  <h1>
                 Произошла ошибка
-            </h1> }
+            </h1>}
 
             {isPostLoading ? <div style={{display: 'flex', justifyContent: 'center'}}><Loader/></div> :
                 <PostList posts={sortedAndFilteredPost} remove={removePost} title='Список проектов'/>}
