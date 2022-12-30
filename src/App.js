@@ -18,13 +18,18 @@ function App() {
     const [filter, setFilter] = useState({sort: '', query: ''});
     const sortedAndFilteredPost = usePosts(posts, filter.sort, filter.query);
     const [fetchPost, isPostLoading, postError] = useFetching(async () => {
-        const posts = await PostService.getAll();
-        setPosts(posts);
+        const posts = await PostService.getAll(limit,page);
+        setTotalCount(posts.headers['x-total-count']);
+        setPosts(posts.data);
     });
 
+    const [totalCount, setTotalCount] = useState(0);
+    const [limit, setLimit] = useState(10);
+    const [page, setPage] = useState(1);
+
     useEffect(() => {
-      fetchPost();
-    },[])
+        fetchPost();
+    }, [])
 
     const createPost = (post) => {
         setPosts([...posts, post]);
@@ -48,7 +53,7 @@ function App() {
 
             <PostFilter filter={filter} setFilter={e => setFilter(e)}/>
 
-            {postError &&  <h1>
+            {postError && <h1>
                 Произошла ошибка
             </h1>}
 
