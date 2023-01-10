@@ -9,27 +9,37 @@ import {usePosts} from "./hooks/usePost";
 import PostService from "./API/PostService";
 import {Loader} from "./components/UI/Loader/Loader";
 import {useFetching} from "./hooks/useFetching";
+import {getPageArray, getPageCount} from "./utils/page";
 
 
 function App() {
 
     const [posts, setPosts] = useState([]);
+    const [totalPages, setTotalPages] = useState(0);
+    const [limit, setLimit] = useState(10);
+    const [page, setPage] = useState(1);
     const [visibleModal, setVisibleModal] = useState(false);
     const [filter, setFilter] = useState({sort: '', query: ''});
     const sortedAndFilteredPost = usePosts(posts, filter.sort, filter.query);
-    const [fetchPost, isPostLoading, postError] = useFetching(async () => {
-        const posts = await PostService.getAll(limit,page);
-        setTotalCount(posts.headers['x-total-count']);
+    let pagesArray = getPageArray(totalPages);
+
+
+    const [fetchPost, isPostLoading, postError] = useFetching(async (limit, page) => {
+        const posts = await PostService.getAll(limit, page);
         setPosts(posts.data);
+        const totalCount = posts.headers['x-total-count'];
+        setTotalPages(getPageCount(totalCount, limit));
     });
 
-    const [totalCount, setTotalCount] = useState(0);
-    const [limit, setLimit] = useState(10);
-    const [page, setPage] = useState(1);
 
     useEffect(() => {
-        fetchPost();
+        fetchPost(limit, page);
     }, [])
+
+    const changePage = (numberPage) => {
+        setPage(numberPage);
+        fetchPost(limit, numberPage);
+    }
 
     const createPost = (post) => {
         setPosts([...posts, post]);
@@ -59,6 +69,11 @@ function App() {
 
             {isPostLoading ? <div style={{display: 'flex', justifyContent: 'center'}}><Loader/></div> :
                 <PostList posts={sortedAndFilteredPost} remove={removePost} title='Список проектов'/>}
+            <div className='page__wrapper'>
+                {pagesArray.map((numberPage) =>
+                    <span key={numberPage} onClick={()=>changePage(numberPage)} className={numberPage === page ? 'page__btn page_active' : 'page__btn'}>{numberPage}</span>)
+                }
+            </div>
 
         </div>
     );
